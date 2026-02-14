@@ -1,0 +1,127 @@
+// Ornate Butterfly Component with Random Flight
+const ButterflyOrnate = ({ startX, startY }) => {
+    // Generate random flight path
+    const randomPath = [
+        { x: Math.random() * 100 - 50, y: Math.random() * 100 - 50 },
+        { x: Math.random() * 100 - 50, y: Math.random() * 100 - 50 },
+        { x: Math.random() * 200 - 100, y: Math.random() * 200 - 100 },
+        { x: 150, y: -100 } // Exit off screen
+    ];
+
+    return (
+        <motion.div
+            initial={{ 
+                opacity: 0,
+                scale: 0.3,
+                x: `${startX}vw`,
+                y: `${startY}vh`,
+                rotate: -20
+            }}
+            animate={{
+                opacity: [0, 1, 1, 1, 0],
+                scale: [0.3, 1, 1, 0.8, 0.3],
+                x: [
+                    `${startX}vw`,
+                    `${startX + randomPath[0].x}vw`,
+                    `${startX + randomPath[1].x}vw`,
+                    `${startX + randomPath[2].x}vw`,
+                    `${startX + randomPath[3].x}vw`
+                ],
+                y: [
+                    `${startY}vh`,
+                    `${startY + randomPath[0].y}vh`,
+                    `${startY + randomPath[1].y}vh`,
+                    `${startY + randomPath[2].y}vh`,
+                    `${startY + randomPath[3].y}vh`
+                ],
+                rotate: [-20, 10, -15, 20, 45]
+            }}
+            exit={{ opacity: 0 }}
+            transition={{
+                duration: 8,
+                ease: "easeInOut",
+                times: [0, 0.15, 0.4, 0.7, 1]
+            }}
+            style={{
+                position: 'absolute',
+                zIndex: 50,
+                pointerEvents: 'none'
+            }}
+        >
+            <svg
+                width="120"
+                height="100"
+                viewBox="0 0 120 100"
+                style={{
+                    filter: 'drop-shadow(0 0 15px #ffd700) drop-shadow(0 0 8px #ffaa00)'
+                }}
+            >
+                {/* Left Wing */}
+                <motion.g
+                    animate={{ scale: [1, 0.9, 1] }}
+                    transition={{ duration: 0.3, repeat: Infinity, ease: "easeInOut" }}
+                    style={{ transformOrigin: '60px 50px' }}
+                >
+                    <path
+                        d="M 60,50 Q 40,35 25,30 Q 12,27 5,35 Q 0,42 2,52 Q 4,62 15,68 Q 25,72 38,68 Q 50,64 58,56 Z"
+                        fill="none"
+                        stroke="#ffd700"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                    />
+                    <circle cx="22" cy="48" r="4" fill="none" stroke="#ffd700" strokeWidth="1.5" />
+                    <circle cx="15" cy="42" r="2.5" fill="none" stroke="#ffd700" strokeWidth="1" />
+                    <path d="M 30,40 Q 32,36 34,33" fill="none" stroke="#ffd700" strokeWidth="1.5" strokeLinecap="round" />
+                </motion.g>
+
+                {/* Right Wing */}
+                <motion.g
+                    animate={{ scale: [1, 0.9, 1] }}
+                    transition={{ duration: 0.3, repeat: Infinity, ease: "easeInOut" }}
+                    style={{ transformOrigin: '60px 50px' }}
+                >
+                    <path
+                        d="M 60,50 Q 80,35 95,30 Q 108,27 115,35 Q 120,42 118,52 Q 116,62 105,68 Q 95,72 82,68 Q 70,64 62,56 Z"
+                        fill="none"
+                        stroke="#ffd700"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                    />
+                    <circle cx="98" cy="48" r="4" fill="none" stroke="#ffd700" strokeWidth="1.5" />
+                    <circle cx="105" cy="42" r="2.5" fill="none" stroke="#ffd700" strokeWidth="1" />
+                    <path d="M 90,40 Q 88,36 86,33" fill="none" stroke="#ffd700" strokeWidth="1.5" strokeLinecap="round" />
+                </motion.g>
+
+                {/* Body */}
+                <ellipse cx="60" cy="52" rx="3" ry="18" fill="none" stroke="#ffd700" strokeWidth="2.5" />
+                <circle cx="60" cy="38" r="2.5" fill="#ffd700" />
+
+                {/* Antennae */}
+                <path d="M 58,36 Q 56,30 54,26" fill="none" stroke="#ffd700" strokeWidth="1.2" strokeLinecap="round" />
+                <path d="M 62,36 Q 64,30 66,26" fill="none" stroke="#ffd700" strokeWidth="1.2" strokeLinecap="round" />
+                <circle cx="54" cy="25" r="1.5" fill="#ffd700" />
+                <circle cx="66" cy="25" r="1.5" fill="#ffd700" />
+
+                {/* Sparkles */}
+                {Array.from({ length: 4 }).map((_, i) => (
+                    <motion.circle
+                        key={i}
+                        cx={30 + Math.random() * 60}
+                        cy={35 + Math.random() * 30}
+                        r="1"
+                        fill="#fff"
+                        animate={{
+                            opacity: [0, 1, 0],
+                            r: [0.5, 2, 0.5]
+                        }}
+                        transition={{
+                            duration: 1,
+                            delay: i * 0.3,
+                            repeat: Infinity
+                        }}
+                    />
+                ))}
+            </svg>
+        </motion.div>
+    );
+};
